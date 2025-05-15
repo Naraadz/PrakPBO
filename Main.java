@@ -1,87 +1,71 @@
-import java.util.Date;
+import java.time.LocalDate;
 
-class HealthRecord {
-    private String recordNumber;
-    private Date recordDate;
-
-    HealthRecord(String recordNumber, Date recordDate) {
-        this.recordNumber = recordNumber;
-        this.recordDate = recordDate;
-    }
-
-    String getRecordNumber() {
-        return recordNumber;
-    }
-
-    Date getRecordDate() {
-        return recordDate;
+class Vehicle {
+    void startEngine() {
     }
 }
 
-abstract class Animal {
-    HealthRecord healthRecord;
-
-    Animal(String recordNumber, Date recordDate) {
-        healthRecord = new HealthRecord(recordNumber, recordDate);
-    }
-
-    abstract String makeSound();
+class Car extends Vehicle {
 }
 
-class Dog extends Animal {
-    Dog(String recordNumber, Date recordDate) {
-        super(recordNumber, recordDate);
-    }
-
-    String makeSound() {
-        return "Guk-Guk!";
-    }
+class Motorcycle extends Vehicle {
 }
 
-class Cat extends Animal {
-    Cat(String recordNumber, Date recordDate) {
-        super(recordNumber, recordDate);
+class License {
+    private String nomorLisensi;
+    private LocalDate validUntil;
+
+    public License(String nomorLisensi) {
+        this.nomorLisensi = nomorLisensi;
+        this.validUntil = LocalDate.now().plusYears(5);
     }
 
-    String makeSound() {
-        return "Meong!";
+    public String getNomorLisensi() {
+        return nomorLisensi;
+    }
+
+    public LocalDate getValidUntil() {
+        return validUntil;
     }
 }
 
-class Owner {
-    String name;
-    Animal pet;
+class Driver {
+    private String nama;
+    private Vehicle vehicle;
+    private License license;
 
-    Owner(String name, Animal pet) {
-        this.name = name;
-        this.pet = pet;
+    public Driver(String nama, Vehicle vehicle, String nomorLisensi) {
+        this.nama = nama;
+        this.vehicle = vehicle;
+        this.license = new License(nomorLisensi);
     }
 
-    void tampilkanInfo() {
-        System.out.println("Nama Pemilik: " + name);
-        System.out.println("Suara Hewan: " + pet.makeSound());
+    public void tampilkanInfo() {
+        System.out.println("Nama Pengemudi: " + nama);
+        System.out.print("Jenis Kendaraan: ");
 
-        if (pet instanceof Dog) {
-            System.out.println("Jenis Hewan: Dog");
-        } else if (pet instanceof Cat) {
-            System.out.println("Jenis Hewan: Cat");
+        if (vehicle instanceof Car) {
+            System.out.println("Car");
+            System.out.println("Status Mesin: Mesin Mobil Nyala");
+        } else if (vehicle instanceof Motorcycle) {
+            System.out.println("Motorcycle");
+            System.out.println("Status Mesin: Mesin Motor Nyala");
+        } else {
+            System.out.println("Tidak diketahui");
         }
 
-        System.out.println("Nomor Rekam Medis: " + pet.healthRecord.getRecordNumber());
-        System.out.println("Tanggal Rekam Medis: " + pet.healthRecord.getRecordDate());
+        System.out.println("Nomor Lisensi: " + license.getNomorLisensi());
+        System.out.println("Tanggal Berlaku Lisensi: " + license.getValidUntil());
         System.out.println();
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        Dog dog = new Dog("101", new Date());
-        Cat cat = new Cat("102", new Date());
+        Driver driver1 = new Driver("Mark", new Car(), "101");
+        Driver driver2 = new Driver("June", new Motorcycle(), "102");
 
-        Owner owner1 = new Owner("Dan", dog);
-        Owner owner2 = new Owner("Cath", cat);
-
-        owner1.tampilkanInfo();
-        owner2.tampilkanInfo();
+        driver1.tampilkanInfo();
+        driver2.tampilkanInfo();
     }
 }
