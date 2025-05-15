@@ -1,40 +1,87 @@
-class kendaraan { // superclass atau class parent
-    String merk = "Honda";
+import java.util.Date;
 
-    kendaraan() {
-        System.out.println("ini parent konstruktor");
+class HealthRecord {
+    private String recordNumber;
+    private Date recordDate;
+
+    HealthRecord(String recordNumber, Date recordDate) {
+        this.recordNumber = recordNumber;
+        this.recordDate = recordDate;
     }
 
-    void jalan() {
-        System.out.println("Kendaraan sedang berjalan");
+    String getRecordNumber() {
+        return recordNumber;
     }
-        
+
+    Date getRecordDate() {
+        return recordDate;
+    }
 }
 
+abstract class Animal {
+    HealthRecord healthRecord;
 
-class Mobil extends kendaraan { // subclass atau class child
-    String merk = "BMW";
-    Mobil() {
-        super();
-        System.out.println("ini child konstruktor");
+    Animal(String recordNumber, Date recordDate) {
+        healthRecord = new HealthRecord(recordNumber, recordDate); // Komposisi
     }
 
-    void printInfo() {
-        System.out.println("merk mobil child " + merk);
-        System.out.println("merk mobil parent " +super.merk);
-        jalan();
-    }
-    
-    void klakson() {
-        String merk = "BMW";
-        System.out.println("Mobil " + merk + " klakson");
-    }
-
+    abstract String makeSound();
 }
+
+class Dog extends Animal {
+    Dog(String recordNumber, Date recordDate) {
+        super(recordNumber, recordDate);
+    }
+
+    String makeSound() {
+        return "Guk-Guk!";
+    }
+}
+
+class Cat extends Animal {
+    Cat(String recordNumber, Date recordDate) {
+        super(recordNumber, recordDate);
+    }
+
+    String makeSound() {
+        return "Meong!";
+    }
+}
+
+class Owner {
+    String name;
+    Animal pet;
+
+    Owner(String name, Animal pet) {
+        this.name = name;
+        this.pet = pet;
+    }
+
+    void tampilkanInfo() {
+        System.out.println("Nama Pemilik: " + name);
+        System.out.println("Suara Hewan: " + pet.makeSound());
+
+        if (pet instanceof Dog) {
+            System.out.println("Jenis Hewan: Dog");
+        } else if (pet instanceof Cat) {
+            System.out.println("Jenis Hewan: Cat");
+        }
+
+        System.out.println("Nomor Rekam Medis: " + pet.healthRecord.getRecordNumber());
+        System.out.println("Tanggal Rekam Medis: " + pet.healthRecord.getRecordDate());
+        System.out.println();
+    }
+}
+
 public class Main {
     public static void main(String[] args) {
-        Mobil jazz = new Mobil();
-        jazz.jalan();
-        jazz.klakson();
+        Dog dog = new Dog("101", new Date());
+        Cat cat = new Cat("102", new Date());
+
+        Owner owner1 = new Owner("Dan", dog);
+        Owner owner2 = new Owner("Cath", cat);
+
+        owner1.tampilkanInfo();
+        owner2.tampilkanInfo();
     }
 }
