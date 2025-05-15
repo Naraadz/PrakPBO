@@ -22,7 +22,7 @@ abstract class Animal {
     HealthRecord healthRecord;
 
     Animal(String recordNumber, Date recordDate) {
-        healthRecord = new HealthRecord(recordNumber, recordDate); // Komposisi
+        healthRecord = new HealthRecord(recordNumber, recordDate);
     }
 
     abstract String makeSound();
